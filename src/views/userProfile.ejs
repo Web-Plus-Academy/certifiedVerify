@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certified User</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Outfit", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+      }
+      .badge-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px 30px;
+        text-align: center;
+        max-width: 400px;
+        border: 2px solid #00b4d8;
+      }
+      .badge-icon {
+        font-size: 50px;
+        color: #00b4d8;
+        margin-bottom: 10px;
+      }
+      .badge-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #023e8a;
+      }
+      .badge-text {
+        font-size: 30px;
+        color: #495057;
+        margin: 10px 0 20px;
+      }
+      .badge-button {
+        text-decoration: none;
+        display: inline-block;
+        background: #00b4d8;
+        color: white;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .badge-button:hover {
+        background: #0077b6;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      .user-details {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #495057;
+      }
+      header {
+        /* height: 100px; */
+        width: 300px;
+        margin: auto;
+        border-radius: 10px;
+        box-shadow: 2px 2px 7px rgba(53, 53, 53, 0.137);
+      }
+      header img {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="badge-container">
+      <header>
+        <img src="logo.png" alt="logo" />
+      </header>
+      <div class="badge-icon">🏅</div>
+      <div class="badge-title">Certified Developer</div>
+      <% if (user) { %>
+      <div class="badge-text"><b><%= user.name %>!</b></div>
+      <div class="user-details">
+        <!-- <p><strong>Name:</strong> <%= user.name %></p> -->
+        <p><strong>Developer ID:</strong> <%= user.username %></p>
+        <p><strong>Email:</strong> <%= user.email %></p>
+        <p>
+          <strong>Certification Link:</strong>
+          <a
+            href="<%= user.certificateLink %>"
+            target="_blank"
+            style="color: #007bff; text-decoration: underline"
+          >
+            View Certificate
+          </a>
+        </p>
+      </div>
+      <button class="badge-button" id="view-details">
+        <a
+          href="https://studentinfo-03z5.onrender.com/<%= user.username %>"
+          target="_blank"
+          style="color: white; text-decoration: none"
+        >
+          View Full Detail
+        </a>
+      </button>
+      <% } else { %>
+      <div class="badge-text"><%= error %></div>
+      <% } %>
+    </div>
+    <script>
+      // Celebration animation with confetti
+      window.addEventListener("load", () => {
+        const duration = 5 * 1000; // 5 seconds
+        const animationEnd = Date.now() + duration;
+        const defaults = {
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          zIndex: 0,
+        };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        const interval = setInterval(() => {
+          const timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          const particleCount = 50 * (timeLeft / duration);
+          // Launch confetti from the top
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: {
+                x: randomInRange(0.1, 0.9),
+                y: Math.random() - 0.2,
+              },
+            })
+          );
+        }, 250);
+      });
+    </script>
+  </body>
+</html>
